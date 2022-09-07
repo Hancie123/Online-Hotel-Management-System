@@ -244,7 +244,47 @@ public class Customer_Registration implements ActionListener  {
 										String password=passwordtxt.getText();
 										boolean resultpassword=val.Password(password);
 										if(resultpassword==true) {
-											
+											// save
+											String title = titlebox.getSelectedItem().toString();
+											String name = nametxt.getText();
+											String gender = genderCombo.getSelectedItem().toString();
+											String DOB = ((JTextField) DOBtxt.getDateEditor().getUiComponent()).getText();
+											String mobile = mobiletxt.getText();
+											String email1 = emailtxt.getText();
+											String address = addresstxt.getText();
+											String username1 = usernametxt.getText();
+											String password1 = passwordtxt.getText();
+											String credit = credittxt.getText();
+											String role = roleCombo.getSelectedItem().toString();
+
+											CustomerLibs customer = new CustomerLibs();
+
+											customer.setTitle(title);
+											customer.setName(name);
+											customer.setGender(gender);
+											customer.setDOB(DOB);
+											customer.setMobile(mobile);
+											customer.setEmail(email1);
+											customer.setAddress(address);
+											customer.setUsername(username1);
+											customer.setPassword(password1);
+											customer.setCredit_Number(credit);
+											customer.setRole(role);
+
+											JDBCCustomer jdbc = new JDBCCustomer();
+											boolean result1 = jdbc.insert(customer);
+											if (result == true) {
+
+												ImageIcon i = new ImageIcon(getClass().getResource("5-stars.png"));
+												JOptionPane.showMessageDialog(null, "You have registered your account successfully!",
+
+														"Luton Hotel System", JOptionPane.WIDTH, i);
+											}
+
+											else {
+												ImageIcon i = new ImageIcon(getClass().getResource("5-stars.png"));
+												JOptionPane.showMessageDialog(null, "Error Occured!", "Luton Hotel System", JOptionPane.WIDTH, i);
+											}
 											
 											
 											
@@ -356,47 +396,7 @@ public class Customer_Registration implements ActionListener  {
 
 			else {
 
-				// save
-				String title = titlebox.getSelectedItem().toString();
-				String name = nametxt.getText();
-				String gender = genderCombo.getSelectedItem().toString();
-				String DOB = ((JTextField) DOBtxt.getDateEditor().getUiComponent()).getText();
-				String mobile = mobiletxt.getText();
-				String email = emailtxt.getText();
-				String address = addresstxt.getText();
-				String username = usernametxt.getText();
-				String password = passwordtxt.getText();
-				String credit = credittxt.getText();
-				String role = roleCombo.getSelectedItem().toString();
-
-				CustomerLibs customer = new CustomerLibs();
-
-				customer.setTitle(title);
-				customer.setName(name);
-				customer.setGender(gender);
-				customer.setDOB(DOB);
-				customer.setMobile(mobile);
-				customer.setEmail(email);
-				customer.setAddress(address);
-				customer.setUsername(username);
-				customer.setPassword(password);
-				customer.setCredit_Number(credit);
-				customer.setRole(role);
-
-				JDBCCustomer jdbc = new JDBCCustomer();
-				boolean result = jdbc.insert(customer);
-				if (result == true) {
-
-					ImageIcon i = new ImageIcon(getClass().getResource("5-stars.png"));
-					JOptionPane.showMessageDialog(null, "You have registered your account successfully!",
-
-							"Luton Hotel System", JOptionPane.WIDTH, i);
-				}
-
-				else {
-					ImageIcon i = new ImageIcon(getClass().getResource("5-stars.png"));
-					JOptionPane.showMessageDialog(null, "Error Occured!", "Luton Hotel System", JOptionPane.WIDTH, i);
-				}
+				
 
 			}
 		}

@@ -1,13 +1,15 @@
 package customer;
 
 import java.awt.BorderLayout;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
@@ -29,9 +31,11 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import com.toedter.calendar.JDateChooser;
+
 import libs.BookingLibs;
 import libs.BookingLibs2;
 import libs.Global;
@@ -40,12 +44,12 @@ import libs.PanelRound;
 import ui.Login;
 
 
-public class Customer_Dashboard implements ActionListener{
+public class Customer_Dashboard implements ActionListener, MouseListener{
 	JFrame frame;
 	JDateChooser checkin, checkout1;
 	JComboBox bookingtypetxt;
 	JButton bookingbtn;
-	JTextField customeridtxt;
+	JTextField customeridtxt, cancelbookingtxt;
 	Object[] Column;
 	DefaultTableModel model;
 	JTable table;
@@ -252,6 +256,9 @@ public class Customer_Dashboard implements ActionListener{
 		bookinglbl.setFont(new Font("Verdana",Font.BOLD,25));
 		bookingPanel.add(bookinglbl);
 		
+		cancelbookingtxt=new JTextField();
+		cancelbookingtxt.setVisible(false);
+		bookingPanel.add(cancelbookingtxt);
 		
 		JLabel checkinLabel=new JLabel("Arrival Date: ");
 		checkinLabel.setBounds(130,100,200,35);
@@ -331,6 +338,48 @@ public class Customer_Dashboard implements ActionListener{
 		bookingbtn.setFont(new Font("Verdana",Font.PLAIN,18));
 		bookingPanel.add(bookingbtn);
 		
+		JButton cancelRoombtn=new JButton("Cancel Booking");
+		cancelRoombtn.setFocusable(false);
+		cancelRoombtn.setBounds(700,200,200,35);
+		cancelRoombtn.setBackground(new Color(0,0,0));
+		cancelRoombtn.setForeground(Color.white);
+		cancelRoombtn.setFont(new Font("Verdana",Font.PLAIN,18));
+		bookingPanel.add(cancelRoombtn);
+		cancelRoombtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource()==cancelRoombtn) {
+					BookingLibs booking = new BookingLibs();
+					
+		           int cancelbooking=(Integer.parseInt(cancelbookingtxt.getText()));
+		            
+					
+		            
+		            booking.setBooking_ID(cancelbooking);
+		          
+
+					JDBCBooking jdbc2 = new JDBCBooking();
+					boolean result1 = jdbc2.delete(cancelbooking);
+					if (result1 == true) {
+						update();
+						
+						ImageIcon i = new ImageIcon(getClass().getResource("hotel (1).png"));
+						JOptionPane.showMessageDialog(null, "Your booking is cancelled", "Customer Management", JOptionPane.WIDTH, i);
+					} else {
+						ImageIcon i = new ImageIcon(getClass().getResource("hotel (1).png"));
+						JOptionPane.showMessageDialog(null, "Error Occured!", "Customer Management", JOptionPane.WIDTH, i);
+					}
+					
+					
+				}
+				
+			}
+			
+			
+			
+		});
+		
 		
 		
 		//------------------------Booking Table-----------------------
@@ -364,6 +413,7 @@ public class Customer_Dashboard implements ActionListener{
 		table.setBorder(null);
 		sorter = new TableRowSorter<>(model);
 		table.setRowSorter(sorter);
+		table.addMouseListener(this);
 		
 		
 		JScrollPane scroll1 = new JScrollPane(table);
@@ -448,7 +498,44 @@ public class Customer_Dashboard implements ActionListener{
           
           
           
-          
+          @Override
+      	public void mouseClicked(MouseEvent e) {
+      		
+      		if(e.getSource()==table) {
+      			
+      			try {
+      				
+      				int tab1=table.getSelectedRow();
+      				
+      				DefaultTableModel model1 =(DefaultTableModel) table.getModel();
+      				
+      				TableModel tab11=table.getModel();
+      				
+      				String custoid=tab11.getValueAt(tab1, 1).toString();
+      				cancelbookingtxt.setText(custoid);
+      				
+      				Date date = new SimpleDateFormat("yyyy-MM-dd").parse((String)model1.getValueAt(tab1, 2));
+      				checkin.setDate(date);
+      				
+      				Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse((String)model1.getValueAt(tab1, 3));
+      				checkout1.setDate(date1);
+      				
+      				String statustxt=tab11.getValueAt(tab1, 4).toString();
+      				bookingtypetxt.setSelectedItem(statustxt);
+      				
+      				
+      				
+      			}
+      			
+      		catch(Exception ex) {
+      			System.out.println("Error"+ex.getMessage());
+      		}
+      		
+      		
+      		
+      		
+      		
+      		}}     
           
           
           
@@ -456,6 +543,34 @@ public class Customer_Dashboard implements ActionListener{
 	public static void main(String[] args) {
 		new Customer_Dashboard();
 
+	}
+
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

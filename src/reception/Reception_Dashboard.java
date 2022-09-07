@@ -25,13 +25,11 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -40,6 +38,9 @@ import javax.swing.table.TableRowSorter;
 
 import com.toedter.calendar.JDateChooser;
 
+import billing.BillingGUI;
+import customer.Customer_Details;
+import customer.Customer_Management;
 import libs.BookingLibs;
 import libs.BookingLibs3;
 import libs.Global;
@@ -172,7 +173,6 @@ public class Reception_Dashboard implements MouseListener {
 
 				availableroomlbl.setForeground(COLOR);
 			}
-
 			@Override
 			public void mouseClicked(MouseEvent e) {
 						new Room_Management();
@@ -222,12 +222,12 @@ public class Reception_Dashboard implements MouseListener {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-//								new CorporateCustomerManagement();
+								new Customer_Management();
 			}
 
 		});
 
-		// *****************Corporate Customer Panel***************
+		// ***************** Customer Panel***************
 		PanelRound corporatePanel = new PanelRound();
 		corporatePanel.setRoundBottomRight(100);
 		corporatePanel.setRoundBottomLeft(100);
@@ -238,7 +238,7 @@ public class Reception_Dashboard implements MouseListener {
 		corporatePanel.setBounds(540, 60, 200, 180);
 		northPanel1.add(corporatePanel);
 
-		// *******************Image for Corporate Customer***************8
+		// *******************Image for  Customer***************8
 		JLabel img2 = new JLabel();
 		img2.setIcon(new javax.swing.ImageIcon(getClass().getResource("teamwork.png")));
 		img2.setBounds(35, 10, 128, 128);
@@ -246,8 +246,8 @@ public class Reception_Dashboard implements MouseListener {
 		img2.setForeground(Color.white);
 		corporatePanel.add(img2);
 
-		// *******************Label for Corporate Customer Panel***************
-		JLabel corporateLabel = new JLabel("Manage Corporate");
+		// *******************Label for  Customer Panel***************
+		JLabel corporateLabel = new JLabel("Search Customers");
 		corporateLabel.setBounds(20, 130, 200, 30);
 		corporateLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
 		corporateLabel.addMouseListener(this);
@@ -257,24 +257,24 @@ public class Reception_Dashboard implements MouseListener {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 
-				customerLabel.setForeground(new Color(147, 250, 165));
+				corporateLabel.setForeground(new Color(147, 250, 165));
 
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
 
-				customerLabel.setForeground(COLOR);
+				corporateLabel.setForeground(COLOR);
 			}
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-//										new CorporateCustomerManagement();
+										new Customer_Details();
 			}
 
 		});
 
-		// *****************Corporate Customer Panel***************
+		// *****************Check Room Panel***************
 		PanelRound servicesPanel = new PanelRound();
 		servicesPanel.setRoundBottomRight(100);
 		servicesPanel.setRoundBottomLeft(100);
@@ -285,17 +285,17 @@ public class Reception_Dashboard implements MouseListener {
 		servicesPanel.setBounds(790, 60, 200, 180);
 		northPanel1.add(servicesPanel);
 
-		// *******************Image for Corporate Customer***************8
+		// *******************Image for Check Room***************8
 		JLabel img3 = new JLabel();
-		img3.setIcon(new javax.swing.ImageIcon(getClass().getResource("customer-service-agent.png")));
+		img3.setIcon(new javax.swing.ImageIcon(getClass().getResource("room.png")));
 		img3.setBounds(35, 10, 128, 128);
 		img3.setFont(new Font("Tahoma", Font.BOLD, 18));
 		img3.setForeground(Color.white);
 		servicesPanel.add(img3);
 
-		// *******************Label for Corporate Customer Panel***************
-		JLabel servicesLabel = new JLabel("Services");
-		servicesLabel.setBounds(60, 130, 200, 30);
+		// *******************Label for Check Room Panel***************
+		JLabel servicesLabel = new JLabel("Check Rooms");
+		servicesLabel.setBounds(40, 130, 200, 30);
 		servicesLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
 		servicesLabel.addMouseListener(this);
 		servicesPanel.add(servicesLabel);
@@ -316,7 +316,7 @@ public class Reception_Dashboard implements MouseListener {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-//										new CorporateCustomerManagement();
+										new AvailableRooms();
 			}
 
 		});
@@ -413,7 +413,7 @@ public class Reception_Dashboard implements MouseListener {
 
 					@Override
 					public void mouseClicked(MouseEvent e) {
-	             
+	             new BillingGUI();
 					}
 
 				});
@@ -607,18 +607,10 @@ public class Reception_Dashboard implements MouseListener {
 		frame.setJMenuBar(menuBar);
 
 		JMenu file = new JMenu("File");
-		JMenu room = new JMenu("Room");
-		JMenu setting = new JMenu("Setting");
-		JMenu services = new JMenu("Services");
-		JMenu billing = new JMenu("Billing");
-		JMenu about = new JMenu("About");
+		
 
 		menuBar.add(file);
-		menuBar.add(room);
-		menuBar.add(setting);
-		menuBar.add(services);
-		menuBar.add(billing);
-		menuBar.add(about);
+		
 
 		
 
@@ -646,98 +638,9 @@ public class Reception_Dashboard implements MouseListener {
 		file.add(Exit);
 
 	
-		JMenuItem ReserveRoom = new JMenuItem("Manage Rooms");
-		room.add(ReserveRoom);
-		ReserveRoom.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				if (ae.getSource() == ReserveRoom) {
-					new Room_Management();
-				}
-			}
-
-		});
-
 		
 
-		JMenuItem setting1 = new JMenuItem("Change Password");
-		setting.add(setting1);
-		setting1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				if (ae.getSource() == setting1) {
-//					new ReceptionPasswordChange();
-				}
-			}
-
-		});
-
-		JMenuItem extraservices = new JMenuItem("Manage Services");
-		services.add(extraservices);
-		extraservices.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				if (ae.getSource() == extraservices) {
-//					new ServicesGUI();
-				}
-			}
-
-		});
-
-		JMenuItem billing1 = new JMenuItem("View Billing");
-		billing.add(billing1);
-		billing1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				if (ae.getSource() == billing1) {
-//					new BillingGUI();
-				}
-			}
-
-		});
-
-		JMenuItem aboutDeveloper = new JMenuItem("About Developer");
-		aboutDeveloper.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				if (ae.getSource() == aboutDeveloper) {
-//					new AboutUs();
-				}
-			}
-
-		});
-		about.add(aboutDeveloper);
-
-		final JPopupMenu menu = new JPopupMenu("Menu");
-
-		JMenuItem logout1 = new JMenuItem("Log Out");
-//		logout1.setIcon(new javax.swing.ImageIcon(getClass().getResource("log-out.png")));
-		menu.add(logout1);
-		logout1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				if (ae.getSource() == logout1) {
-					frame.dispose();
-//					new LoginWindow();
-				}
-			}
-
-		});
-
-		JMenuItem open = new JMenuItem("Exit");
-//		open.setIcon(new javax.swing.ImageIcon(getClass().getResource("shutdown.png")));
-		menu.add(open);
-		open.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				if (ae.getSource() == open) {
-					System.exit(0);
-				}
-			}
-
-		});
-
-		frame.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				// right mouse click event
-				if (SwingUtilities.isRightMouseButton(e) && e.getClickCount() == 1) {
-					menu.show(frame, e.getX(), e.getY());
-				}
-			}
-		});
+		
 
 		frame.setVisible(true);
 
@@ -811,13 +714,13 @@ public class Reception_Dashboard implements MouseListener {
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		availableroomlbl.setForeground(new Color(147, 250, 165));
+		
 
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		availableroomlbl.setForeground(COLOR);
+		
 
 	}
 
